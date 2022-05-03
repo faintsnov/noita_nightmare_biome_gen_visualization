@@ -92,7 +92,7 @@ var dict = {
 }
 
 var colorToHex = (c) => {
-  return "0xff" + c.data[0].toString(16) + c.data[1].toString(16) + c.data[2].toString(16)
+  return "0xff" + c.data[0].toString(16) + c.data[1].toString(16) + c.data[2].toString(16);
 }
 
 var a = document.getElementById("a");
@@ -108,15 +108,15 @@ image.onload = () => {
 };
 image.src = data;
 
-var w = 64
-var h = 48
+var w = 64;
+var h = 48;
 
 var atob = () => {
   for (var x = 0; x < 64; x++) {
     for (var y = 0; y < 48; y++) {
-      var tmpc = ctxa.getImageData(x, y, 1, 1)
-      ctxb.fillStyle = `rgb(${tmpc.data[0]}, ${tmpc.data[1]}, ${tmpc.data[2]})`
-      ctxb.fillRect(x * 10, y * 10, 10, 10)
+      var tmpc = ctxa.getImageData(x, y, 1, 1);
+      ctxb.fillStyle = `rgb(${tmpc.data[0]}, ${tmpc.data[1]}, ${tmpc.data[2]})`;
+      ctxb.fillRect(x * 10, y * 10, 10, 10);
     }
   }
 }
@@ -126,48 +126,48 @@ var Random = (min, max) => {
 }
 
 var BiomeMapSetPixel = (x, y, biome_color) => {
-  ctxb.fillStyle = `rgb(${(biome_color >> 16) & 0xff}, ${(biome_color >> 8) & 0xff}, ${biome_color & 0xff})`
-  ctxb.fillRect(x * 10, y * 10, 10, 10)
+  ctxb.fillStyle = `rgb(${(biome_color >> 16) & 0xff}, ${(biome_color >> 8) & 0xff}, ${biome_color & 0xff})`;
+  ctxb.fillRect(x * 10, y * 10, 10, 10);
 }
 
 var clamp = (val, lower, upper) => {
   if (lower > upper) {
-    [lower, upper] = [upper, lower]
+    [lower, upper] = [upper, lower];
   }
-  return Math.max(lower, Math.min(upper, val))
+  return Math.max(lower, Math.min(upper, val));
 }
 
 var paint_biome_area = (x, y, w, h, biome_color, buffer) => {
-  var extra_width = Random(0, buffer)
-  x = x - extra_width
-  w = w + extra_width + Random(0, buffer)
+  var extra_width = Random(0, buffer);
+  x = x - extra_width;
+  w = w + extra_width + Random(0, buffer);
 
   for (iy = y; iy <= y + h - 1; iy++) {
     for (ix = x; ix <= x + w - 1; ix++) {
-      BiomeMapSetPixel(ix, iy, biome_color)
+      BiomeMapSetPixel(ix, iy, biome_color);
     }
   }
 }
 
 var paint_biome_area_split = (x, y, w, h, biome_color1, biome_color2, buffer) => {
 
-  var extra_width = Random(0, buffer)
-  x = x - extra_width
-  w = w + extra_width + Random(0, buffer)
+  var extra_width = Random(0, buffer);
+  x = x - extra_width;
+  w = w + extra_width + Random(0, buffer);
 
-  var cutoff_point = Random(y + 1, y + h - 2)
+  var cutoff_point = Random(y + 1, y + h - 2);
 
   for (ix = x; ix <= x + w - 1; ix++) {
     for (iy = y; iy <= y + h - 1; iy++) {
       if (iy < cutoff_point) {
-        BiomeMapSetPixel(ix, iy, biome_color1)
+        BiomeMapSetPixel(ix, iy, biome_color1);
       } else {
-        BiomeMapSetPixel(ix, iy, biome_color2)
+        BiomeMapSetPixel(ix, iy, biome_color2);
       }
     }
 
-    cutoff_point = cutoff_point + Random(-1, 1)
-    cutoff_point = clamp(cutoff_point, y + 1, y + h - 2)
+    cutoff_point = cutoff_point + Random(-1, 1);
+    cutoff_point = clamp(cutoff_point, y + 1, y + h - 2);
   }
 }
 
@@ -175,50 +175,50 @@ var paint_cave = (x, y, dir, biome_color, length) => {
 
   for (i = 1; i <= length; i++) {
 
-    BiomeMapSetPixel(x, y, biome_color)
+    BiomeMapSetPixel(x, y, biome_color);
 
     if (i < 5 || Random(0, 100) < 75) {
-      x = x + dir
+      x = x + dir;
     } else {
-      x = x - dir
+      x = x - dir;
     }
 
     if (x < 2) {
-      x = 2
+      x = 2;
     }
     if (x > 62) {
-      x = 62
+      x = 62;
     }
 
-    BiomeMapSetPixel(x, y, biome_color)
+    BiomeMapSetPixel(x, y, biome_color);
 
     if (y < 17) {
-      y = 17
+      y = 17;
     }
     if (y > 45) {
-      y = 45
+      y = 45;
     }
 
     if (i > 3) {
       if (Random(0, 100) < 65) {
-        y = y + 1
+        y = y + 1;
       } else {
-        y = y - 1
+        y = y - 1;
       }
     }
 
     if (i > 6) {
       if (Random(0, 100) < 35) {
-        BiomeMapSetPixel(x - 1, y, biome_color)
+        BiomeMapSetPixel(x - 1, y, biome_color);
       }
       if (Random(0, 100) < 35) {
-        BiomeMapSetPixel(x + 1, y, biome_color)
+        BiomeMapSetPixel(x + 1, y, biome_color);
       }
       if (Random(0, 100) < 35) {
-        BiomeMapSetPixel(x, y - 1, biome_color)
+        BiomeMapSetPixel(x, y - 1, biome_color);
       }
       if (Random(0, 100) < 35) {
-        BiomeMapSetPixel(x, y + 1, biome_color)
+        BiomeMapSetPixel(x, y + 1, biome_color);
       }
     }
 
@@ -226,18 +226,18 @@ var paint_cave = (x, y, dir, biome_color, length) => {
 
 }
 
-var biome_coalmines = 0xFFD57917
-var biome_collapsedmines = 0xFFD56517
-var biome_fungicave = 0xFFE861F0
-var biome_excavationsite = 0xFF124445
-var biome_snowcaves = 0xFF1775D5
-var biome_hiisibase = 0xFF0046FF
-var biome_jungle_1 = 0xFFA08400
-var biome_jungle_2 = 0xFF808000
-var biome_vault = 0xFF008000
-var biome_sandcaves = 0xFFE1CD32
-var biomes_snowvault = 0xFF0080A8
-var biomes_wandcave = 0xFF006C42
+var biome_coalmines = 0xFFD57917;
+var biome_collapsedmines = 0xFFD56517;
+var biome_fungicave = 0xFFE861F0;
+var biome_excavationsite = 0xFF124445;
+var biome_snowcaves = 0xFF1775D5;
+var biome_hiisibase = 0xFF0046FF;
+var biome_jungle_1 = 0xFFA08400;
+var biome_jungle_2 = 0xFF808000;
+var biome_vault = 0xFF008000;
+var biome_sandcaves = 0xFFE1CD32;
+var biomes_snowvault = 0xFF0080A8;
+var biomes_wandcave = 0xFF006C42;
 
 var buff2 = null;
 var buff3 = null;
@@ -246,36 +246,36 @@ var buff5 = null;
 var buff6 = null;
 
 var go1 = () => {
-  biome_coalmines = 0xFFD57917
-  biome_collapsedmines = 0xFFD56517
-  biome_fungicave = 0xFFE861F0
-  biome_excavationsite = 0xFF124445
-  biome_snowcaves = 0xFF1775D5
-  biome_hiisibase = 0xFF0046FF
-  biome_jungle_1 = 0xFFA08400
-  biome_jungle_2 = 0xFF808000
-  biome_vault = 0xFF008000
-  biome_sandcaves = 0xFFE1CD32
-  biomes_snowvault = 0xFF0080A8
-  biomes_wandcave = 0xFF006C42
+  biome_coalmines = 0xFFD57917;
+  biome_collapsedmines = 0xFFD56517;
+  biome_fungicave = 0xFFE861F0;
+  biome_excavationsite = 0xFF124445;
+  biome_snowcaves = 0xFF1775D5;
+  biome_hiisibase = 0xFF0046FF;
+  biome_jungle_1 = 0xFFA08400;
+  biome_jungle_2 = 0xFF808000;
+  biome_vault = 0xFF008000;
+  biome_sandcaves = 0xFFE1CD32;
+  biomes_snowvault = 0xFF0080A8;
+  biomes_wandcave = 0xFF006C42;
 
   if (true) {
-    [biome_coalmines, biome_excavationsite] = [biome_excavationsite, biome_coalmines]
+    [biome_coalmines, biome_excavationsite] = [biome_excavationsite, biome_coalmines];
   }
   if (Random(0, 100) < 35) {
-    [biome_fungicave, biome_excavationsite] = [biome_excavationsite, biome_fungicave]
+    [biome_fungicave, biome_excavationsite] = [biome_excavationsite, biome_fungicave];
   }
   if (Random(0, 100) < 35) {
-    [biome_snowcaves, biome_hiisibase] = [biome_hiisibase, biome_snowcaves]
+    [biome_snowcaves, biome_hiisibase] = [biome_hiisibase, biome_snowcaves];
   }
   if (Random(0, 100) < 35) {
-    [biome_jungle_1, biome_jungle_2] = [biome_jungle_2, biome_jungle_1]
+    [biome_jungle_1, biome_jungle_2] = [biome_jungle_2, biome_jungle_1];
   }
   if (Random(0, 100) < 35) {
-    [biome_sandcaves, biome_fungicave] = [biome_fungicave, biome_sandcaves]
+    [biome_sandcaves, biome_fungicave] = [biome_fungicave, biome_sandcaves];
   }
   if (Random(0, 100) < 35) {
-    [biomes_wandcave, biome_sandcaves] = [biome_sandcaves, biomes_wandcave]
+    [biomes_wandcave, biome_sandcaves] = [biome_sandcaves, biomes_wandcave];
   }
 
   buff2 = null;
@@ -290,20 +290,20 @@ var go2 = () => {
     ctxb.putImageData(buff2, 0, 0);
   } else {
     if (Random(0, 100) < 65) {
-      paint_cave(27, 15, -1, biome_fungicave, Random(4, 50))
+      paint_cave(27, 15, -1, biome_fungicave, Random(4, 50));
     }
     if (Random(0, 100) < 65) {
-      paint_cave(35, 15, 1, biome_fungicave, Random(4, 50))
+      paint_cave(35, 15, 1, biome_fungicave, Random(4, 50));
     }
 
     if (Random(0, 100) < 65) {
-      paint_cave(27, 18, -1, biome_fungicave, Random(4, 50))
+      paint_cave(27, 18, -1, biome_fungicave, Random(4, 50));
     }
     if (Random(0, 100) < 65) {
-      paint_cave(35, 18, 1, biome_fungicave, Random(4, 50))
+      paint_cave(35, 18, 1, biome_fungicave, Random(4, 50));
     }
 
-    buff2 = ctxb.getImageData(0, 0, 640, 480)
+    buff2 = ctxb.getImageData(0, 0, 640, 480);
   }
 }
 
@@ -313,13 +313,13 @@ var go3 = () => {
     ctxb.putImageData(buff3, 0, 0);
   } else {
     if (Random(0, 100) < 65) {
-      paint_cave(27, 20 + Random(0, 5), -1, biomes_wandcave, Random(5, 50))
+      paint_cave(27, 20 + Random(0, 5), -1, biomes_wandcave, Random(5, 50));
     }
     if (Random(0, 100) < 65) {
-      paint_cave(35, 20 + Random(0, 5), 1, biomes_wandcave, Random(5, 50))
+      paint_cave(35, 20 + Random(0, 5), 1, biomes_wandcave, Random(5, 50));
     }
 
-    buff3 = ctxb.getImageData(0, 0, 640, 480)
+    buff3 = ctxb.getImageData(0, 0, 640, 480);
   }
 }
 
@@ -329,13 +329,13 @@ var go4 = () => {
     ctxb.putImageData(buff4, 0, 0);
   } else {
     if (Random(0, 100) < 65) {
-      paint_cave(27, 27 + Random(0, 6), -1, biome_sandcaves, Random(5, 50))
+      paint_cave(27, 27 + Random(0, 6), -1, biome_sandcaves, Random(5, 50));
     }
     if (Random(0, 100) < 65) {
-      paint_cave(35, 27 + Random(0, 6), 1, biome_sandcaves, Random(5, 50))
+      paint_cave(35, 27 + Random(0, 6), 1, biome_sandcaves, Random(5, 50));
     }
 
-    buff4 = ctxb.getImageData(0, 0, 640, 480)
+    buff4 = ctxb.getImageData(0, 0, 640, 480);
   }
 }
 
@@ -343,17 +343,17 @@ var go5 = () => {
   if (buff5) {
     ctxb.putImageData(buff5, 0, 0);
   } else {
-    paint_biome_area(32, 14, 3, 2, biome_coalmines, 0)
-    paint_biome_area(28, 15, 4, 1, biome_collapsedmines, 1)
+    paint_biome_area(32, 14, 3, 2, biome_coalmines, 0);
+    paint_biome_area(28, 15, 4, 1, biome_collapsedmines, 1);
 
-    paint_biome_area(28, 17, 4, 4, biome_snowcaves, 2)
+    paint_biome_area(28, 17, 4, 4, biome_snowcaves, 2);
 
-    paint_biome_area(28, 22, 7, 4, biome_hiisibase, 3)
+    paint_biome_area(28, 22, 7, 4, biome_hiisibase, 3);
 
-    paint_biome_area_split(28, 27, 7, 4, biome_jungle_1, biome_jungle_2, 4)
-    paint_biome_area_split(28, 29, 7, 5, biome_jungle_2, biome_vault, 4)
+    paint_biome_area_split(28, 27, 7, 4, biome_jungle_1, biome_jungle_2, 4);
+    paint_biome_area_split(28, 29, 7, 5, biome_jungle_2, biome_vault, 4);
 
-    buff5 = ctxb.getImageData(0, 0, 640, 480)
+    buff5 = ctxb.getImageData(0, 0, 640, 480);
   }
 }
 
@@ -361,70 +361,70 @@ var qol = () => {
   if (buff6) {
     ctxb.putImageData(buff6, 0, 0);
   } else {
-    var frozen_vault_orb = 0xFFFFD102
-    var snowy_depth_orb = 0xFFFFD109
-    var wizard_den_orb = 0xFFFFD110
-    var sandcave_orb = 0xFFFFD104
-    var color_end_room = 0xFF50EED7
-    var color_boss_arena = 0xFF14EED7
+    var frozen_vault_orb = 0xFFFFD102;
+    var snowy_depth_orb = 0xFFFFD109;
+    var wizard_den_orb = 0xFFFFD110;
+    var sandcave_orb = 0xFFFFD104;
+    var color_end_room = 0xFF50EED7;
+    var color_boss_arena = 0xFF14EED7;
 
-    BiomeMapSetPixel(44, 43, color_end_room)
+    BiomeMapSetPixel(44, 43, color_end_room);
 
-    paint_biome_area(35, 38, 5, 2, color_boss_arena)
-    BiomeMapSetPixel(37, 40, color_boss_arena)
-    BiomeMapSetPixel(38, 40, color_boss_arena)
-    BiomeMapSetPixel(12, 19, frozen_vault_orb)
-    BiomeMapSetPixel(14, 42, snowy_depth_orb)
-    BiomeMapSetPixel(52, 45, wizard_den_orb)
-    BiomeMapSetPixel(51, 19, sandcave_orb)
+    paint_biome_area(35, 38, 5, 2, color_boss_arena);
+    BiomeMapSetPixel(37, 40, color_boss_arena);
+    BiomeMapSetPixel(38, 40, color_boss_arena);
+    BiomeMapSetPixel(12, 19, frozen_vault_orb);
+    BiomeMapSetPixel(14, 42, snowy_depth_orb);
+    BiomeMapSetPixel(52, 45, wizard_den_orb);
+    BiomeMapSetPixel(51, 19, sandcave_orb);
 
-    buff6 = ctxb.getImageData(0, 0, 640, 480)
+    buff6 = ctxb.getImageData(0, 0, 640, 480);
   }
 
 }
 
 document.getElementById("go1").addEventListener("click", () => {
-  atob()
-  go1()
-  document.getElementById("go2").disabled = false
-  document.getElementById("go3").disabled = true
-  document.getElementById("go4").disabled = true
-  document.getElementById("go5").disabled = true
-  document.getElementById("qol").disabled = true
+  atob();
+  go1();
+  document.getElementById("go2").disabled = false;
+  document.getElementById("go3").disabled = true;
+  document.getElementById("go4").disabled = true;
+  document.getElementById("go5").disabled = true;
+  document.getElementById("qol").disabled = true;
 })
 
 document.getElementById("go2").addEventListener("click", () => {
-  go2()
-  document.getElementById("go3").disabled = false
+  go2();
+  document.getElementById("go3").disabled = false;
 })
 
 document.getElementById("go3").addEventListener("click", () => {
-  go3()
-  document.getElementById("go4").disabled = false
+  go3();
+  document.getElementById("go4").disabled = false;
 })
 
 document.getElementById("go4").addEventListener("click", () => {
-  go4()
-  document.getElementById("go5").disabled = false
+  go4();
+  document.getElementById("go5").disabled = false;
 })
 
 document.getElementById("go5").addEventListener("click", () => {
-  go5()
-  document.getElementById("qol").disabled = false
+  go5();
+  document.getElementById("qol").disabled = false;
 })
 
 document.getElementById("qol").addEventListener("click", () => {
-  qol()
+  qol();
 })
 
 
 document.getElementById("b").addEventListener("mousemove", (e) => {
-  var tmpc = ctxb.getImageData(e.offsetX, e.offsetY, 1, 1)
+  var tmpc = ctxb.getImageData(e.offsetX, e.offsetY, 1, 1);
   //tooltip.value = ( 0xFF000000 ) + ( tmpc.data[0] << 16 ) + ( tmpc.data[1] << 8 ) + ( tmpc.data[2] ) 
   var desc = dict[(0xFF000000) + (tmpc.data[0] << 16) + (tmpc.data[1] << 8) + (tmpc.data[2])];
   if (desc) {
-    tooltip.value = desc
+    tooltip.value = desc;
   } else {
-    tooltip.value = colorToHex(tmpc)
+    tooltip.value = colorToHex(tmpc);
   }
 })
